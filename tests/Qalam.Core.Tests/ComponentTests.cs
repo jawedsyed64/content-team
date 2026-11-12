@@ -64,7 +64,7 @@ public class AgentOutputTests
     [InlineData("Body\n\nQUESTIONS FOR USER\n- One?\n- Two?", 2)]
     [InlineData("Body\n\n## Questions for the user\n1. One?", 1)]
     [InlineData("Body\n\nQUESTIONS FOR USER:\n- None", 0)]
-    [InlineData("Body with no questions", 0)]
+    [InlineData("Body with nothing to ask", 0)]
     public void Splits_questions(string text, int expected)
     {
         var (body, questions) = AgentOutput.SplitQuestions(text);
