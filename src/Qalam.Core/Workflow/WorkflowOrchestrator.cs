@@ -877,7 +877,7 @@ public sealed class WorkflowOrchestrator
     }
 
     private ArtifactVersion AddVersion(Project p, ArtifactKind kind, string author, AgentId? agent, string content,
-        string? parentId, AiResponse? response, string? note = null, bool incomplete = false, string? data = null)
+        string? parentId, AiResponse? response = null, string? note = null, bool incomplete = false, string? data = null)
     {
         return _repo.AddVersion(new ArtifactVersion
         {
