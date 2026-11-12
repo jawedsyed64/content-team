@@ -1,0 +1,68 @@
+<Window x:Class="Qalam.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:Qalam.App.ViewModels"
+        xmlns:v="clr-namespace:Qalam.App.Views"
+        Title="Qalam — AI Content Team" Height="860" Width="1400" MinHeight="600" MinWidth="1000"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource AppBackground}"
+        FontFamily="Segoe UI" FontSize="13" Foreground="{StaticResource TextBrush}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:OverviewViewModel}"><v:OverviewView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AgentsViewModel}"><v:AgentsView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProjectsViewModel}"><v:ProjectsView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ResearchLibraryViewModel}"><v:ResearchLibraryView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:CalendarViewModel}"><v:CalendarView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:WritingWorkspaceViewModel}"><v:WritingWorkspaceView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SeoToolsViewModel}"><v:SeoToolsView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SocialMediaViewModel}"><v:SocialMediaView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:EditorialReviewViewModel}"><v:EditorialReviewView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BrandGuidelinesViewModel}"><v:BrandGuidelinesView/></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}"><v:SettingsView/></DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <DockPanel Background="{StaticResource SidebarBackground}">
+            <StackPanel DockPanel.Dock="Top" Margin="24,24,16,20">
+                <TextBlock Text="Qalam" FontSize="26" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="AI Content Team" Foreground="#A9A4C4" FontSize="12"/>
+            </StackPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="24,12" Foreground="#77728F" FontSize="11"
+                       Text="You keep final editorial control."/>
+            <ListBox ItemsSource="{Binding Sections}" SelectedItem="{Binding Current, Mode=TwoWay}"
+                     Background="Transparent" BorderThickness="0"
+                     ItemContainerStyle="{StaticResource NavItem}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Icon}" FontFamily="Segoe MDL2 Assets" FontSize="15" Width="28"
+                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Title}" VerticalAlignment="Center"
+                                       Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+
+        <!-- Content -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Current.Title}" Style="{StaticResource H1}" Margin="24,20,24,12"/>
+            <ContentControl Grid.Row="1" Content="{Binding Current}" Margin="24,0,12,0"/>
+            <Border Grid.Row="2" Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="0,1,0,0" Padding="24,6">
+                <TextBlock Text="{Binding StatusBarText}" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

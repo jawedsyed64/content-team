@@ -1,0 +1,28 @@
+<UserControl x:Class="Qalam.App.Views.ResearchLibraryView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,0,12,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="280"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel>
+            <TextBox DockPanel.Dock="Top" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged, Delay=300}" Margin="0,0,0,8"
+                     ToolTip="Search titles and research text"/>
+            <ListBox ItemsSource="{Binding Briefs}" SelectedItem="{Binding Selected}"><ListBox.ItemTemplate><DataTemplate><StackPanel Margin="2,4"><TextBlock Text="{Binding Label}" FontWeight="SemiBold"/><TextBlock Text="{Binding Meta}" Style="{StaticResource Muted}"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
+        </DockPanel>
+        <DockPanel Grid.Column="1" Margin="12,0">
+            <Button DockPanel.Dock="Top" Content="Copy" Style="{StaticResource Secondary}" HorizontalAlignment="Right" Margin="0,0,0,8" Command="{Binding CopyCommand}"/>
+            <TextBox Style="{StaticResource Reader}" Text="{Binding Content, Mode=OneWay}"/>
+        </DockPanel>
+        <Border Grid.Column="2" Style="{StaticResource Card}" Margin="0">
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Sources" Style="{StaticResource H2}"/>
+                <TextBlock DockPanel.Dock="Top" Style="{StaticResource Muted}" Margin="0,0,0,8"
+                           Text="Links captured from Claude's web search. Open them to check claims yourself."/>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Sources}"><ItemsControl.ItemTemplate><DataTemplate><Button Style="{StaticResource LinkButton}" Content="{Binding Title}" ToolTip="{Binding Url}" Margin="0,1" Command="{Binding DataContext.OpenSourceCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

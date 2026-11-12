@@ -1,0 +1,55 @@
+<UserControl x:Class="Qalam.App.Views.CalendarView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,0,12,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Style="{StaticResource Card}" Margin="0,0,0,12">
+            <WrapPanel VerticalAlignment="Center">
+                <TextBlock Text="Start" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <DatePicker SelectedDate="{Binding Start}" Width="140" Margin="0,0,12,0"/>
+                <RadioButton Content="Rest of month" IsChecked="{Binding Monthly}" VerticalAlignment="Center" Margin="0,0,10,0" GroupName="Period"/>
+                <RadioButton Content="One week" VerticalAlignment="Center" Margin="0,0,16,0" GroupName="Period"/>
+                <TextBlock Text="Focus" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                <TextBox Text="{Binding Focus}" Width="280" Margin="0,0,12,0" ToolTip="Optional: a campaign, event or theme to plan around"/>
+                <Button Content="Generate with Content Strategist" Command="{Binding GenerateCommand}"/>
+            </WrapPanel>
+        </Border>
+        <StackPanel Grid.Row="1">
+            <Border Style="{StaticResource Notice}" Margin="0,0,0,12" Visibility="{Binding HasQuestions, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="{Binding Questions}"/>
+            </Border>
+            <ItemsControl ItemsSource="{Binding Themes}" Margin="0,0,0,8">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource Pill}" Background="#EEF0FF" Margin="0,0,6,6">
+                            <TextBlock Text="{Binding}" Foreground="#4338CA"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <DockPanel Grid.Row="2">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,8,0,0">
+                <Button Content="Create project from selected entry" Command="{Binding CreateProjectCommand}"/>
+                <Button Content="Remove entry" Style="{StaticResource Secondary}" Command="{Binding RemoveCommand}"/>
+                <Button Content="Clear calendar" Style="{StaticResource Secondary}" Command="{Binding ClearCommand}"/>
+            </StackPanel>
+            <DataGrid ItemsSource="{Binding Entries}" SelectedItem="{Binding Selected}" AutoGenerateColumns="False"
+                      CanUserAddRows="False" IsReadOnly="True" HeadersVisibility="Column" GridLinesVisibility="Horizontal"
+                      Background="White" BorderBrush="{StaticResource BorderBrush}" RowHeight="30">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date" Binding="{Binding Date, StringFormat='ddd d MMM'}" Width="110"/>
+                    <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="2*"/>
+                    <DataGridTextColumn Header="Format" Binding="{Binding Format}" Width="*"/>
+                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*"/>
+                    <DataGridTextColumn Header="Platform" Binding="{Binding Platform}" Width="*"/>
+                    <DataGridTextColumn Header="Keyword" Binding="{Binding Keyword}" Width="*"/>
+                    <DataGridTextColumn Header="Notes" Binding="{Binding Notes}" Width="2*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,29 @@
+<UserControl x:Class="Qalam.App.Views.SeoToolsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,0,12,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Margin="0,0,12,0">
+            <Border DockPanel.Dock="Top" Style="{StaticResource Notice}" Margin="0,0,0,10">
+                <TextBlock Text="{Binding Notice}"/>
+            </Border>
+            <TextBlock DockPanel.Dock="Top" Text="Target keyword (optional)" Style="{StaticResource Label}"/>
+            <TextBox DockPanel.Dock="Top" Text="{Binding Keyword}"/>
+            <TextBlock DockPanel.Dock="Top" Text="Topic, or paste a draft to review" Style="{StaticResource Label}"/>
+            <Button DockPanel.Dock="Bottom" Content="Run SEO Specialist" HorizontalAlignment="Left" Margin="0,8,0,0" Command="{Binding RunCommand}"/>
+            <TextBox Style="{StaticResource Editor}" Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"/>
+        </DockPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="160"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ListBox ItemsSource="{Binding History}" SelectedItem="{Binding Selected}"><ListBox.ItemTemplate><DataTemplate><StackPanel Margin="2,4"><TextBlock Text="{Binding Label}" FontWeight="SemiBold"/><TextBlock Text="{Binding Meta}" Style="{StaticResource Muted}"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
+            <DockPanel Grid.Row="1" Margin="0,8,0,0">
+                <Button DockPanel.Dock="Top" Content="Copy" Style="{StaticResource Secondary}" HorizontalAlignment="Right" Margin="0,0,0,6" Command="{Binding CopyCommand}"/>
+                <TextBox Style="{StaticResource Reader}" Text="{Binding Result, Mode=OneWay}"/>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

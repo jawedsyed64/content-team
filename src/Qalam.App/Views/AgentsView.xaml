@@ -1,0 +1,40 @@
+<UserControl x:Class="Qalam.App.Views.AgentsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <TextBlock Style="{StaticResource Muted}" Margin="0,0,12,12"
+                       Text="Each agent is a separate role with its own instructions. Status changes only when a real Claude API call starts, finishes or fails."/>
+            <ItemsControl ItemsSource="{Binding Agents}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate><UniformGrid Columns="2"/></ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource Card}" BorderThickness="4,1,1,1" BorderBrush="{Binding Accent}">
+                            <StackPanel>
+                                <DockPanel>
+                                    <Border DockPanel.Dock="Right" Style="{StaticResource Pill}" Background="#F1F2F6">
+                                        <TextBlock Text="{Binding State}" Foreground="{Binding StateColor}" FontWeight="SemiBold" FontSize="12"/>
+                                    </Border>
+                                    <TextBlock Text="{Binding Name}" Style="{StaticResource H2}" Margin="0"/>
+                                </DockPanel>
+                                <TextBlock Text="{Binding Role}" Style="{StaticResource Muted}" Margin="0,2,0,8"/>
+                                <TextBlock Text="Current task" Style="{StaticResource Label}"/>
+                                <TextBlock Text="{Binding CurrentTask}"/>
+                                <TextBlock Text="{Binding LastError}" Foreground="#DC2626" Margin="0,4,0,0"/>
+                                <TextBlock Text="Responsibilities" Style="{StaticResource Label}"/>
+                                <TextBlock Text="{Binding Responsibilities}" FontSize="12"/>
+                                <TextBlock Text="{Binding ContextFiles}" Style="{StaticResource Muted}" Margin="0,6,0,0"/>
+                                <TextBlock Style="{StaticResource Label}" Text="{Binding Completed}"/>
+                                <ItemsControl ItemsSource="{Binding RecentWork}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate><TextBlock Text="{Binding}" Style="{StaticResource Muted}"/></DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

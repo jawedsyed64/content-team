@@ -1,0 +1,41 @@
+<UserControl x:Class="Qalam.App.Views.WritingWorkspaceView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,0,12,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Margin="0,0,0,10">
+            <TextBlock Text="Project" VerticalAlignment="Center" Margin="0,0,8,0"/>
+            <ComboBox ItemsSource="{Binding Projects}" SelectedItem="{Binding Project}" DisplayMemberPath="Title" Width="360" Padding="6,5"/>
+            <TextBlock Text="{Binding WordCountText}" Style="{StaticResource Muted}" VerticalAlignment="Center" Margin="16,0"/>
+            <TextBlock Text="A project is running — editing is locked until it pauses." Foreground="#D97706" VerticalAlignment="Center"
+                       Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"/>
+        </DockPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <DockPanel>
+                <TextBlock DockPanel.Dock="Top" Text="Draft history" Style="{StaticResource H2}"/>
+                <Button DockPanel.Dock="Bottom" Content="Load selected into editor" Style="{StaticResource Secondary}" Margin="0,8,0,0"
+                        Command="{Binding LoadVersionCommand}"/>
+                <ListBox ItemsSource="{Binding Drafts}" SelectedItem="{Binding SelectedVersion}"><ListBox.ItemTemplate><DataTemplate><StackPanel Margin="2,4"><TextBlock Text="{Binding Label}" FontWeight="SemiBold"/><TextBlock Text="{Binding Meta}" Style="{StaticResource Muted}"/></StackPanel></DataTemplate></ListBox.ItemTemplate></ListBox>
+            </DockPanel>
+            <DockPanel Grid.Column="1" Margin="12,0,6,0">
+                <TextBlock DockPanel.Dock="Top" Text="Selected version (read-only)" Style="{StaticResource H2}"/>
+                <TextBox Style="{StaticResource Reader}" Text="{Binding SelectedContent, Mode=OneWay}"/>
+            </DockPanel>
+            <DockPanel Grid.Column="2" Margin="6,0,0,0">
+                <TextBlock DockPanel.Dock="Top" Text="Your editor" Style="{StaticResource H2}"/>
+                <WrapPanel DockPanel.Dock="Bottom" Margin="0,8,0,0">
+                    <Button Content="Save as new version" Command="{Binding SaveCommand}"/>
+                    <Button Content="Send to QA re-check" Style="{StaticResource Secondary}" Command="{Binding RecheckCommand}"/>
+                    <Button Content="Export…" Style="{StaticResource Secondary}" Command="{Binding ExportCommand}"/>
+                </WrapPanel>
+                <TextBox Style="{StaticResource Editor}" Text="{Binding EditorText, UpdateSourceTrigger=PropertyChanged, Delay=200}"/>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

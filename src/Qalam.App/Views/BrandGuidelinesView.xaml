@@ -1,0 +1,52 @@
+<UserControl x:Class="Qalam.App.Views.BrandGuidelinesView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="0,0,12,12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock Text="Context files" Style="{StaticResource H2}"/>
+            <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding Selected}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="2,5">
+                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding State}" Foreground="{Binding Color}" FontSize="12"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBlock Text="Brand documents" Style="{StaticResource H2}" Margin="0,18,0,4"/>
+            <TextBlock Style="{StaticResource Muted}" Margin="0,0,0,6"
+                       Text="Upload .txt, .md or .docx files (style guides, past articles, product sheets). Their text is given to the Strategist, Ideation Specialist, Writer and Social Media Manager."/>
+            <ListBox ItemsSource="{Binding Documents}" SelectedItem="{Binding SelectedDocument}" Height="160">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Margin="2,3">
+                            <TextBlock Text="{Binding FileName}"/>
+                            <TextBlock Text="{Binding TextLength, StringFormat='{}{0:N0} characters of text'}" Style="{StaticResource Muted}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <WrapPanel Margin="0,8,0,0">
+                <Button Content="Upload…" Command="{Binding UploadCommand}"/>
+                <Button Content="Remove" Style="{StaticResource Secondary}" Command="{Binding RemoveDocCommand}"/>
+            </WrapPanel>
+        </StackPanel>
+        <DockPanel Grid.Column="1" Margin="12,0,0,0">
+            <DockPanel DockPanel.Dock="Top" Margin="0,0,0,8">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Content="Save" Command="{Binding SaveCommand}"/>
+                    <Button Content="Reset to template" Style="{StaticResource Secondary}" Command="{Binding ResetCommand}"/>
+                    <Button Content="Open folder" Style="{StaticResource Secondary}" Command="{Binding OpenFolderCommand}" Margin="0"/>
+                </StackPanel>
+                <TextBlock Text="{Binding EditorStatus}" Style="{StaticResource Muted}" VerticalAlignment="Center"/>
+            </DockPanel>
+            <Border DockPanel.Dock="Top" Style="{StaticResource Notice}" Margin="0,0,0,8">
+                <TextBlock FontSize="12" Text="Replace each [FILL IN: …] with your own details. While placeholders remain, agents stop and ask instead of inventing brand or audience information. Previous versions are kept in the history folder."/>
+            </Border>
+            <TextBox Style="{StaticResource Editor}" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Delay=200}"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

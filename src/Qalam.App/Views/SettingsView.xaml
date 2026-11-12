@@ -1,0 +1,76 @@
+<UserControl x:Class="Qalam.App.Views.SettingsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="760" HorizontalAlignment="Left">
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Claude API key" Style="{StaticResource H2}"/>
+                    <TextBlock Style="{StaticResource Muted}" TextWrapping="Wrap"
+                               Text="Get a key at console.anthropic.com. It is encrypted with Windows DPAPI for your user account and never written to settings.json or logs."/>
+                    <TextBlock Margin="0,8,0,4">
+                        Current key: <Run Text="{Binding ApiKeyStatus, Mode=OneWay}" FontWeight="SemiBold"/>
+                    </TextBlock>
+                    <DockPanel>
+                        <Button DockPanel.Dock="Right" Content="Remove key" Style="{StaticResource Secondary}" Command="{Binding ClearKeyCommand}" Margin="8,0,0,0"/>
+                        <Button DockPanel.Dock="Right" Content="Save key" Command="{Binding SaveKeyCommand}" CommandParameter="{Binding ElementName=KeyBox}" Margin="8,0,0,0"/>
+                        <PasswordBox x:Name="KeyBox" Padding="6,5"/>
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                        <Button Content="Test connection" Style="{StaticResource Secondary}" Command="{Binding TestCommand}"/>
+                        <TextBlock Text="{Binding TestResult}" VerticalAlignment="Center" Margin="8,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Models and limits" Style="{StaticResource H2}"/>
+                    <TextBlock Text="Model for all agents" Style="{StaticResource Label}"/>
+                    <ComboBox ItemsSource="{Binding Models}" Text="{Binding Model}" IsEditable="True" Padding="6,5"/>
+                    <TextBlock Text="Stronger model for Research Analyst and Quality Manager (optional)" Style="{StaticResource Label}"/>
+                    <ComboBox ItemsSource="{Binding Models}" Text="{Binding ReviewModel}" IsEditable="True" Padding="6,5"/>
+                    <Grid Margin="0,4,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+                            <TextBlock Text="Max tokens per stage" Style="{StaticResource Label}"/>
+                            <TextBox Text="{Binding MaxTokens}"/>
+                            <TextBlock Text="Max QA revision rounds" Style="{StaticResource Label}"/>
+                            <TextBox Text="{Binding MaxRevisions}"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock Text="Max web searches per stage" Style="{StaticResource Label}"/>
+                            <TextBox Text="{Binding MaxSearches}"/>
+                            <TextBlock Text="Brand document characters per prompt" Style="{StaticResource Label}"/>
+                            <TextBox Text="{Binding MaxDocChars}"/>
+                        </StackPanel>
+                    </Grid>
+                    <CheckBox Content="Use Claude web search for research, SEO and fact-checking (charged per search)" IsChecked="{Binding WebSearch}" Margin="0,12,0,4"/>
+                    <CheckBox Content="Strict context: stop and ask while Brand Guidelines contain [FILL IN] placeholders" IsChecked="{Binding StrictContext}" Margin="0,4"/>
+                    <Button Content="Save settings" HorizontalAlignment="Left" Margin="0,12,0,0" Command="{Binding SaveCommand}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="External services" Style="{StaticResource H2}"/>
+                    <TextBlock FontSize="12" TextWrapping="Wrap" xml:space="preserve">• Claude API (required): all agent work. Paid per use.
+• Claude web search (optional, recommended): live research and source links. Must be enabled for your Anthropic organisation.
+• Keyword volume/difficulty data: NOT included — needs a paid SEO service.
+• Plagiarism scanning: NOT included — needs a service such as Copyscape. QA performs an originality review only.
+• Publishing to websites or social networks: NOT included — export or copy, then publish yourself.</TextBlock>
+                </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Data" Style="{StaticResource H2}"/>
+                    <TextBlock Text="{Binding DataFolder}" Style="{StaticResource Muted}"/>
+                    <Button Content="Open data folder" Style="{StaticResource Secondary}" HorizontalAlignment="Left" Margin="0,8,0,0" Command="{Binding OpenDataCommand}"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

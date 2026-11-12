@@ -1,0 +1,34 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Test workflow engine
+        run: dotnet test tests/Qalam.Core.Tests/Qalam.Core.Tests.csproj -c Release --logger "console;verbosity=normal"
+
+  build-windows:
+    runs-on: windows-latest
+    needs: test-core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Publish Qalam (self-contained, win-x64)
+        run: dotnet publish src/Qalam.App/Qalam.App.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+      - name: Upload app
+        uses: actions/upload-artifact@v4
+        with:
+          name: Qalam-win-x64
+          path: publish/
